@@ -31,3 +31,109 @@ body {
     --border-color: #ccc;
     --text-color: #333;
 }
+
+/* ---Header ---- */
+
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: var(--primary-blue);
+    color: var(--light-bg);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Logo Stijlen */
+.logo-container {
+    flex-shrink: 0;
+}
+
+.logo-link {
+    text-decoration: none;
+    display: block;
+}
+
+.logo-text {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--secondary-green);
+    padding: 5px 0;
+}
+
+/* Navigatie Links  */
+.nav-links {
+    display: flex;
+    gap: 15px;
+    flex-grow: 1;
+    justify-content: center;
+}
+
+.nav-link {
+    color: var(--light-bg);
+    text-decoration: none;
+    padding: 8px 12px;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    border-radius: 4px;
+}
+
+.nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Actie Knoppen */
+.actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.action-btn,
+.theme-switch-icon {
+    /* Stijl voor Zoeken, Winkelwagen, en Theme Switch Icons */
+    background-color: transparent;
+    border: none;
+    color: var(--light-bg);
+    padding: 8px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background-color 0.3s;
+    border-radius: 4px;
+}
+
+.action-btn:hover,
+.theme-switch-icon:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* nloggen/Registreren */
+.auth-btn {
+    /* voor de gebruikersinterface van Vue.js */
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.login-btn {
+    background-color: var(--light-bg);
+    color: var(--primary-blue);
+    border: 1px solid var(--light-bg);
+}
+
+.login-btn:hover {
+    background-color: #e0e0e0;
+}
+
+.register-btn {
+    background-color: var(--secondary-green);
+    color: var(--light-bg);
+    border: 1px solid var(--secondary-green);
+}
+
+.register-btn:hover {
+    background-color: #388e3c;
+}
