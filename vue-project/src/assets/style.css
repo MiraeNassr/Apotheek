@@ -294,3 +294,62 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     z-index: 1000;
 }
+
+
+/* Grote tablets en desktops */
+@media (max-width: 900px) {
+    .data-grid-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Tablets */
+@media (max-width: 768px) {
+    .top-bar {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+    }
+
+    .logo-container {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 5px;
+    }
+
+    .nav-links,
+    .actions {
+        width: 100%;
+        justify-content: space-around;
+    }
+
+    .nav-link,
+    .auth-btn {
+        flex-grow: 1;
+        text-align: center;
+        margin: 0 5px;
+    }
+
+    .main-footer {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+/* Mobiele telefoons */
+@media (max-width: 600px) {
+    .product-item {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .product-image-box {
+        width: 100px;
+        height: 100px;
+        margin: 0 auto;
+    }
+
+    .add-to-cart-btn {
+        width: 100%;
+    }
+}
