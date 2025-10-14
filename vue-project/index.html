@@ -1,13 +1,46 @@
 <!DOCTYPE html>
 <html lang="">
-  <head>
-    <meta charset="UTF-8">
-    <link rel="icon" href="/favicon.ico">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vite App</title>
-  </head>
-  <body>
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>De Pillen All-stars </title>
+  <link rel="stylesheet" href="src/assets/style.css">
+</head>
+
+<body>
+
+  <div id="hoofd-app">
+
+    <header class="top-bar">
+
+      <div class="logo-container">
+        <a href="/" class="logo-link">
+          <span class="logo-text">De Pillen All-stars </span>
+        </a>
+      </div>
+
+      <nav class="nav-links">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/over-ons" class="nav-link">Over Ons</a>
+        <a href="/diensten" class="nav-link">Diensten</a>
+        <a href="/contact" class="nav-link">Contact</a>
+      </nav>
+
+      <div class="actions">
+
+        <button class="action-btn theme-switch-icon" title="Schakel thema">🌙</button>
+
+        <button class="action-btn search-icon">🔍</button>
+        <button class="action-btn cart-icon">🛒</button>
+
+        <button class="auth-btn login-btn">Inloggen</button>
+        <button class="auth-btn register-btn">Registreren</button>
+      </div>
+    </header>
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
-  </body>
+</body>
+
 </html>
