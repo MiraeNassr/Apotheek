@@ -1,0 +1,33 @@
+/*
+ * Stijlbestand voor de Apotheek Website
+ * Ontwikkeld door: Mir, Conor, Mohamed
+ 
+ */
+
+/* --- Globale Reset en Variabelen --- */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    direction: ltr;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f8ff;
+    color: #333;
+}
+
+:root {
+    /* Kleurvariabelen voor eenvoudig themabeheer met Vue.js */
+    --primary-blue: #004d99;
+    /* Donker apotheekblauw (Hoofd) */
+    --secondary-green: #4CAF50;
+    /* Gezond groen (Actie) */
+    --light-bg: #ffffff;
+    /* Helder wit */
+    --hover-color: #007bff;
+    --border-color: #ccc;
+    --text-color: #333;
+}
