@@ -13,7 +13,7 @@ header('Access-Contol-Allow-Origin: *'); // Allows all domains to access
 $category = isset($_GET['category']) ? $_GET['category'] : '';
 
 //SQL Query Construction
-$sql = "SELECT product_id, naam, bescrijving, prijs, afbeelding_url, category FROM product";
+$sql = "SELECT product_id, naam, beschrijving, prijs, afbeelding_url, categorie FROM product";
 $params = []; //array to store parameters
 $where_clauses = [];
 
