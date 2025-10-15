@@ -21,7 +21,7 @@ body {
 
 :root {
     /* Kleurvariabelen voor eenvoudig themabeheer met Vue.js */
-    --primary-blue: #004d99;
+    --primary-blue: #2b4967;
     /* Donker apotheekblauw (Hoofd) */
     --secondary-green: #4CAF50;
     /* Gezond groen (Actie) */
