@@ -207,6 +207,45 @@ body {
     margin-bottom: 40px;
 }
 
+.category-link {
+    text-decoration: none;
+    color: var(--text-color);
+    flex-basis: 20%;
+}
+
+.category-item {
+    text-align: center;
+    padding: 10px;
+    border-radius: 8px;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.category-item:hover {
+    background-color: #e0f7fa;
+    transform: translateY(-5px);
+    cursor: pointer;
+}
+
+.chat-icon-box {
+    width: 80px;
+    height: 80px;
+    border: none;
+    margin: 0 auto 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.category-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
 /* -- Product Lijst Pagina Secties ---- */
 
 .product-list {
