@@ -393,3 +393,79 @@ body {
         width: 100%;
     }
 }
+
+/* Modal Styles for Vue App */
+.modal-component .buttons {
+  margin: 20px 0;
+}
+
+.modal-component .btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 0 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.modal-component .btn:hover {
+  background-color: #0056b3;
+}
+
+.modal-component .btn.cancel {
+  background-color: #6c757d;
+}
+
+.modal-component .btn.cancel:hover {
+  background-color: #545b62;
+}
+
+.modal-component .modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-component .modal {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.modal-component .modal h2 {
+  margin-top: 0;
+}
+
+.modal-component .form-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.modal-component .form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.modal-component .form-group input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.modal-component .modal-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
