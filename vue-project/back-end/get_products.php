@@ -40,7 +40,7 @@ try{
         throw new Exception("Prepare failed: " . $conn->error);
     }
     //parameters
-    if(!empty($params)) {
+    if(!empty($params)) { 
         $types = str_repeat('s', count($params));
         $stmt->bind_param($types, ...$params);
     }
