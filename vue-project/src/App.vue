@@ -19,6 +19,20 @@ const registerData = ref({
   address: ''
 });
 
+// Error states
+const loginErrors = ref({});
+const registerErrors = ref({});
+
+// Helper function for password strength
+const isStrongPassword = (password) => {
+  const minLength = 8;
+  const hasUpperCase = /[A-Z]/.test(password);
+  const hasLowerCase = /[a-z]/.test(password);
+  const hasNumbers = /\d/.test(password);
+  const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+  return password.length >= minLength && hasUpperCase && hasLowerCase && hasNumbers && hasSpecialChar;
+};
+
 // Methods to handle modal actions
 const openLoginModal = () => {
   showLoginModal.value = true;
@@ -36,14 +50,65 @@ const closeModals = () => {
 };
 
 const handleLogin = () => {
+  // Reset errors
+  loginErrors.value = {};
+
+  // Validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!loginData.value.email || !emailRegex.test(loginData.value.email)) {
+    loginErrors.value.email = 'Voer een geldig e-mailadres in.';
+  }
+  if (!loginData.value.password || !isStrongPassword(loginData.value.password)) {
+    loginErrors.value.password = 'Wachtwoord moet minimaal 8 tekens bevatten, met hoofdletters, kleine letters, cijfers en speciale tekens.';
+  }
+
+  // If errors, don't proceed
+  if (Object.keys(loginErrors.value).length > 0) {
+    return;
+  }
+
   // Add login logic here (e.g., API call)
   console.log('Login data:', loginData.value);
   closeModals();
 };
 
 const handleRegister = () => {
+  // Reset errors
+  registerErrors.value = {};
+
+  // Validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!registerData.value.name || registerData.value.name.trim() === '') {
+    registerErrors.value.name = 'Naam is verplicht.';
+  }
+  if (!registerData.value.email || !emailRegex.test(registerData.value.email)) {
+    registerErrors.value.email = 'Voer een geldig e-mailadres in.';
+  }
+  if (!registerData.value.address || registerData.value.address.trim() === '') {
+    registerErrors.value.address = 'Adres is verplicht.';
+  }
+  if (!registerData.value.password || !isStrongPassword(registerData.value.password)) {
+    registerErrors.value.password = 'Wachtwoord moet minimaal 8 tekens bevatten, met hoofdletters, kleine letters, cijfers en speciale tekens.';
+  }
+  if (registerData.value.password !== registerData.value.confirmPassword) {
+    registerErrors.value.confirmPassword = 'Wachtwoorden komen niet overeen.';
+  }
+
+  // If errors, don't proceed
+  if (Object.keys(registerErrors.value).length > 0) {
+    return;
+  }
+
   // Add register logic here (e.g., API call)
   console.log('Register data:', registerData.value);
+  // Reset form data after successful registration
+  registerData.value = {
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    address: ''
+  };
   closeModals();
 };
 </script>
@@ -146,10 +211,12 @@ const handleRegister = () => {
           <div class="form-group">
             <label for="login-email">Email:</label>
             <input id="login-email" v-model="loginData.email" type="email" required>
+            <span v-if="loginErrors.email" class="error">{{ loginErrors.email }}</span>
           </div>
           <div class="form-group">
             <label for="login-password">Wachtwoord:</label>
             <input id="login-password" v-model="loginData.password" type="password" required>
+            <span v-if="loginErrors.password" class="error">{{ loginErrors.password }}</span>
           </div>
           <div class="modal-actions">
             <button type="submit" class="btn">Inloggen</button>
@@ -167,22 +234,27 @@ const handleRegister = () => {
           <div class="form-group">
             <label for="register-name">Naam:</label>
             <input id="register-name" v-model="registerData.name" type="text" required>
+            <span v-if="registerErrors.name" class="error">{{ registerErrors.name }}</span>
           </div>
           <div class="form-group">
             <label for="register-email">Email:</label>
             <input id="register-email" v-model="registerData.email" type="email" required>
+            <span v-if="registerErrors.email" class="error">{{ registerErrors.email }}</span>
           </div>
           <div class="form-group">
             <label for="register-address">Adres:</label>
             <input id="register-address" v-model="registerData.address" type="text" required>
+            <span v-if="registerErrors.address" class="error">{{ registerErrors.address }}</span>
           </div>
           <div class="form-group">
             <label for="register-password">Wachtwoord:</label>
             <input id="register-password" v-model="registerData.password" type="password" required>
+            <span v-if="registerErrors.password" class="error">{{ registerErrors.password }}</span>
           </div>
           <div class="form-group">
             <label for="register-confirm-password">Bevestig Wachtwoord:</label>
             <input id="register-confirm-password" v-model="registerData.confirmPassword" type="password" required>
+            <span v-if="registerErrors.confirmPassword" class="error">{{ registerErrors.confirmPassword }}</span>
           </div>
           <div class="modal-actions">
             <button type="submit" class="btn">Registreren</button>
@@ -196,9 +268,4 @@ const handleRegister = () => {
 
 <style scoped>
 @import './assets/style.css';
-
-.app-container {
-  text-align: center;
-  padding: 20px;
-}
 </style>
