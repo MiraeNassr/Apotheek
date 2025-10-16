@@ -87,7 +87,7 @@ const handleRegister = () => {
       </section>
 
       <section class="category-grid">
-        <a href="producten.html?category=Antihistamine" class="category-link">
+        <a href="../back-end/producten.php?category=Antihistamine" class="category-link">
           <div class="category-item">
             <div class="category-icon-box">
               <img src="./assets/images/home1.jpg" alt="Pijnstillers" class="category-img">
@@ -96,7 +96,7 @@ const handleRegister = () => {
           </div>
         </a>
 
-        <a href="producten.html?category=Vitaminen & Supplements" class="category-link">
+        <a href="../back-end/producten.php?category=Vitaminen & Supplements" class="category-link">
           <div class="category-item">
             <div class="category-icon-box">
               <img src="./assets/images/home3.jpg" alt="Vitaminen" class="category-img">
@@ -105,7 +105,7 @@ const handleRegister = () => {
           </div>
         </a>
 
-        <a href="producten.html?category=Antibiotics" class="category-link">
+        <a href="../back-end/producten.php?category=Antibiotics" class="category-link">
           <div class="category-item">
             <div class="category-icon-box">
               <img src="./assets/images/home2.jpg" alt="Huidverzorging" class="category-img">
@@ -114,7 +114,7 @@ const handleRegister = () => {
           </div>
         </a>
 
-        <a href="producten.html?category=Pain relief" class="category-link">
+        <a href="../back-end/producten.php?category=Pain relief" class="category-link">
           <div class="category-item">
             <div class="category-icon-box">
               <img src="./assets/images/home4.jpg" alt="Baby & Kind" class="category-img">

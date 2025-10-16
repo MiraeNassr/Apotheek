@@ -5,9 +5,9 @@ $username = "root";
 $password = "";
 $dbname = "De Pillen All-stars";
 
-// Header for JSON respnse
-header('Content-Type: application/json; charest=utf-8');
-header('Access-Contol-Allow-Origin: *'); // Allows all domains to access
+//* Header for JSON respnse
+//header('Content-Type: application/json; charest=utf-8');
+//header('Access-Contol-Allow-Origin: *'); // Allows all domains to access
 
 // Git category from URL 
 $category = isset($_GET['category']) ? $_GET['category'] : '';
@@ -19,14 +19,17 @@ $where_clauses = [];
 
 // if a category is specified, add the filtering condition
 if(!empty($category)) {
-    $where_clauses[] = "category = ?";
+    $where_clauses[] = "categorie = ?";
     $params[] =  $category;
 }
 
 //Append the WHERE clause to the sql query
 if(!empty($where_clauses)) {
-    $sql .= "WHERE " . implode("AND ", $where_clauses);
+    $sql .= " WHERE " . implode(" AND ", $where_clauses);
 }
+
+$products = [];
+$error_message = '' ;
 
 //connect to the database and execute the queryy
 try{
@@ -58,9 +61,10 @@ try{
     $conn->close();
 
     //return results as json
-    echo json_encode($products);
+    //echo json_encode($products);
 }catch (Exception $e) {
     //Error
-    http_response_code(500);
-     echo json_encode(['error' => $e->getMessage()]);
+    $error_message = "Fout bij de databaseverbinding: " . $e->getMessage();
+    //http_response_code(500);
+    // echo json_encode(['error' => $e->getMessage()]);
 }

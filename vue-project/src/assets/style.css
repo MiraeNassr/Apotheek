@@ -264,7 +264,12 @@ body {
     background-color: #f9f9f9;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
-
+.product-image-box img{
+     width: 100%;
+     height: 100%;
+     image-rendering: -webkit-optimize-contrast; 
+    image-rendering: crisp-edges;
+}
 .product-image-box {
     width: 150px;
     height: 150px;
@@ -272,6 +277,10 @@ body {
     border: 2px dashed var(--secondary-green);
     background-color: #e0ffe0;
     border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
 }
 
 .add-to-cart-btn {
