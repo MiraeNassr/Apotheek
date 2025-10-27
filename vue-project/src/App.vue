@@ -155,7 +155,7 @@ const handleRegister = () => {
         <a href="../back-end/producten.php?category=Antihistamine" class="category-link">
           <div class="category-item">
             <div class="category-icon-box">
-              <img src="./assets/images/home1.jpg" alt="Pijnstillers" class="category-img">
+              <img src="./assets/images/home1.jpg" alt="Antihistamine" class="category-img">
             </div>
             <p>Antihistamine</p>
           </div>
@@ -173,7 +173,7 @@ const handleRegister = () => {
         <a href="../back-end/producten.php?category=Antibiotics" class="category-link">
           <div class="category-item">
             <div class="category-icon-box">
-              <img src="./assets/images/home2.jpg" alt="Huidverzorging" class="category-img">
+              <img src="./assets/images/home2.jpg" alt="Antibioticum" class="category-img">
             </div>
             <p>Antibiotics</p>
           </div>
@@ -182,7 +182,7 @@ const handleRegister = () => {
         <a href="../back-end/producten.php?category=Pain relief" class="category-link">
           <div class="category-item">
             <div class="category-icon-box">
-              <img src="./assets/images/home4.jpg" alt="Baby & Kind" class="category-img">
+              <img src="./assets/images/home4.jpg" alt="Pijnstillers" class="category-img">
             </div>
             <p>Pain relief</p>
           </div>
