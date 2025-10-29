@@ -30,6 +30,8 @@ body {
     --hover-color: #007bff;
     --border-color: #ccc;
     --text-color: #333;
+    /* Navigation background (kept same for header/footer in light theme) */
+    --nav-bg: var(--primary-blue);
 }
 
 /* ---Header ---- */
@@ -39,7 +41,7 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
-    background-color: var(--primary-blue);
+    background-color: var(--nav-bg);
     color: var(--light-bg);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -327,7 +329,7 @@ body {
     display: flex;
     justify-content: space-around;
     padding: 30px 20px;
-    background-color: var(--primary-blue);
+    background-color: var(--nav-bg);
     color: var(--light-bg);
     border-top: 5px solid var(--secondary-green);
 }
@@ -494,4 +496,121 @@ body {
   font-size: 0.9em;
   margin-top: 5px;
   display: block;
+}
+
+/* -------------------------
+     Theme variables & overrides
+     Merged theme rules (light & dark)
+     ------------------------- */
+
+/* Light theme defaults */
+:root {
+    --bg-primary: #f0f8ff;
+    --bg-secondary: #ffffff;
+    --text-primary: #333333;
+    --text-secondary: #666666;
+    --border-color-2: #e0e0e0;
+    --card-bg: #ffffff;
+    /* nav background already set via --nav-bg (uses --primary-blue by default) */
+}
+
+/* Dark theme overrides when .dark-theme is present on body or html */
+.dark-theme, body.dark-theme {
+    /* Dark mode: tuned for high contrast and clarity */
+    --bg-primary: #000000;        /* page background (pure black) */
+    --bg-secondary: #0b0b0b;      /* section backgrounds */
+    --text-primary: #ffffff;      /* main text */
+    --text-secondary: #cfcfcf;    /* secondary text */
+    --border-color-2: #1f1f1f;    /* subtle borders */
+    --card-bg: #0f0f0f;           /* card / panel background */
+    --nav-bg: #070707;           /* header/footer background */
+    --secondary-green: #28a745;   /* action color (slightly brighter) */
+    --hover-color: #1fa84b;       /* hover for buttons/links */
+}
+
+/* Apply theme variables to page elements */
+body {
+    background-color: var(--bg-primary) !important;
+    color: var(--text-primary) !important;
+}
+
+#app, .modal-component {
+    background-color: var(--bg-primary) !important;
+}
+
+.top-bar {
+    background-color: var(--nav-bg) !important;
+}
+
+.main-footer {
+    background-color: var(--nav-bg) !important;
+}
+
+/* Ensure main content uses dark background and white text in dark mode */
+.dark-theme .main-content,
+body.dark-theme .main-content {
+    background-color: var(--bg-primary) !important; /* should be #000 */
+    color: var(--text-primary) !important; /* should be white */
+    box-shadow: none !important;
+}
+
+/* Make sure headings and paragraphs inside main-content are readable */
+.dark-theme .main-content h1,
+.dark-theme .main-content h2,
+.dark-theme .main-content h3,
+.dark-theme .main-content p,
+.dark-theme .main-content a,
+.dark-theme .main-content li {
+    color: var(--text-primary) !important;
+}
+
+/* Ensure cards and inputs follow theme */
+.product-item, .category-item, .modal, .data-table, .chart-area, .side-data {
+    background-color: var(--card-bg) !important;
+    border-color: var(--border-color-2) !important;
+    box-shadow: none !important; /* remove noisy shadows in dark mode */
+    border-radius: 8px !important;
+}
+
+.search-input, .modal-component input, .modal-component textarea {
+    background-color: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+    border: 1px solid rgba(255,255,255,0.06) !important;
+    border-radius: 6px !important;
+}
+
+/* Placeholder color for inputs in dark mode */
+.modal-component input::placeholder, .modal-component textarea::placeholder,
+.search-input::placeholder {
+    color: rgba(255,255,255,0.5) !important;
+}
+
+/* Smooth transitions */
+* { transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease !important; }
+
+/* Buttons */
+.add-to-cart-btn, .auth-btn, .register-btn, .search-button {
+    background-color: var(--secondary-green) !important;
+    color: #fff !important;
+    border: 1px solid rgba(0,0,0,0.15) !important;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.35) !important;
+}
+.add-to-cart-btn:hover, .auth-btn:hover, .register-btn:hover, .search-button:hover {
+    background-color: var(--hover-color) !important;
+}
+
+/* Ensure top bar/footer text is readable in dark mode */
+.top-bar, .main-footer {
+    color: var(--light-bg) !important;
+}
+
+/* Headings and important text */
+.product-info-title, .logo-text {
+    color: var(--text-primary) !important;
+    font-weight: 700;
+}
+
+/* Make product descriptions slightly muted but readable */
+.product-info-description {
+    color: var(--text-secondary) !important;
 }
