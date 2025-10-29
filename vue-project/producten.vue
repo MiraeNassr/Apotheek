@@ -87,8 +87,12 @@ const formatPrice = (price) => {
 // Helper to format image URLs to point to Apache server
 const formatImageUrl = (url) => {
   if (!url) return '';
-  // Point directly to the assets directory in Apache's root
-  return `http://localhost/${url}`;
+  // Convert relative path to absolute path through Apache
+  if (url.startsWith('../')) {
+    // Remove the '../' and point to the vue-project directory
+    return `http://localhost/lessen/Apotheek/vue-project/${url.substring(3)}`;
+  }
+  return url;
 };
 </script>
 
