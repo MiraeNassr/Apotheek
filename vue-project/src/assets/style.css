@@ -606,7 +606,8 @@ body.dark-theme .main-content {
 
 /* Headings and important text */
 .product-info-title, .logo-text {
-    color: var(--text-primary) !important;
+    /* Force these specific texts to white in both light and dark modes */
+    color: #ffffff !important;
     font-weight: 700;
 }
 
