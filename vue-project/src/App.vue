@@ -1,10 +1,60 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import Producten from '../producten.vue';
+//import OllamaChat from 'App.jsx';
 
-// Reactive state for modal visibility
+// Reactive state for user and modal visibility
+const isLoggedIn = ref(false);
+const currentUser = ref(null);
 const showLoginModal = ref(false);
 const showRegisterModal = ref(false);
+
+// Theme state
+const isDarkTheme = ref(false);
+
+// Toggle theme function
+const toggleTheme = () => {
+  isDarkTheme.value = !isDarkTheme.value;
+  localStorage.setItem('theme', isDarkTheme.value ? 'dark' : 'light');
+  if (isDarkTheme.value) {
+    document.documentElement.classList.add('dark-theme');
+    document.body.classList.add('dark-theme');
+    document.querySelector('#app')?.classList.add('dark-theme');
+  } else {
+    document.documentElement.classList.remove('dark-theme');
+    document.body.classList.remove('dark-theme');
+    document.querySelector('#app')?.classList.remove('dark-theme');
+  }
+};
+
+// Check login status and theme on mount
+onMounted(() => {
+  // Load user data
+  const userData = localStorage.getItem('user');
+  if (userData) {
+    currentUser.value = JSON.parse(userData);
+    isLoggedIn.value = true;
+  }
+
+  // Load theme preference
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme) {
+    isDarkTheme.value = savedTheme === 'dark';
+  } else {
+    // Check system preference
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    isDarkTheme.value = prefersDark;
+  }
+  
+  // Apply theme
+  if (isDarkTheme.value) {
+    document.documentElement.classList.add('dark-theme');
+    document.body.classList.add('dark-theme');
+  } else {
+    document.documentElement.classList.remove('dark-theme');
+    document.body.classList.remove('dark-theme');
+  }
+});
 
 // Reactive state for products view
 const selectedCategory = ref('');
@@ -60,6 +110,13 @@ const closeModals = () => {
   showRegisterModal.value = false;
 };
 
+const handleLogout = () => {
+  localStorage.removeItem('user');
+  currentUser.value = null;
+  isLoggedIn.value = false;
+  // You could redirect to home page or refresh the page here if needed
+};
+
 // Methods to handle category selection
 const selectCategory = (category) => {
   selectedCategory.value = category;
@@ -71,70 +128,128 @@ const goHome = () => {
   selectedCategory.value = '';
 };
 
-const handleLogin = () => {
+const handleLogin = async () => {
   // Reset errors
   loginErrors.value = {};
 
-  // Validation
-  if (!loginData.value.email || !isValidEmail(loginData.value.email)) {
-    loginErrors.value.email = 'Voer een geldig e-mailadres in.';
-  }
-  if (!loginData.value.password || !isStrongPassword(loginData.value.password)) {
-    loginErrors.value.password = 'Wachtwoord moet minimaal 8 tekens bevatten, met hoofdletters, kleine letters, cijfers en speciale tekens.';
-  }
+  try {
+    // Validation
+    if (!loginData.value.email || !isValidEmail(loginData.value.email)) {
+      loginErrors.value.email = 'Voer een geldig e-mailadres in.';
+      return;
+    }
+    if (!loginData.value.password) {
+      loginErrors.value.password = 'Wachtwoord is verplicht.';
+      return;
+    }
 
-  // If errors, don't proceed
-  if (Object.keys(loginErrors.value).length > 0) {
-    return;
-  }
+    console.log('Attempting login...'); // Debug log
 
-  // Add login logic here (e.g., API call)
-  console.log('Login data:', loginData.value);
-  closeModals();
+    const response = await fetch('/back-end/login_klant.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: loginData.value.email.trim(),
+        wachtwoord: loginData.value.password
+      })
+    });
+
+    const data = await response.json();
+    console.log('Server response:', data); // Debug log
+
+    if (!response.ok || data.error) {
+      throw new Error(data.error || 'Login failed');
+    }
+
+    // Store user data and update login state
+    localStorage.setItem('user', JSON.stringify(data.user));
+    currentUser.value = data.user;
+    isLoggedIn.value = true;
+    
+    // Clear form and close modal on success
+    loginData.value = {
+      email: '',
+      password: ''
+    };
+    closeModals();
+    
+    // You can add additional logic here, like redirecting to a dashboard
+    // or updating the UI to show the logged-in state
+
+  } catch (err) {
+    console.error('Login error:', err); // Debug log
+    loginErrors.value.submit = err.message;
+  }
 };
 
-const handleRegister = () => {
+const handleRegister = async () => {
   // Reset errors
   registerErrors.value = {};
 
-  // Validation
-  if (!registerData.value.name || registerData.value.name.trim() === '') {
-    registerErrors.value.name = 'Naam is verplicht.';
-  }
-  if (!registerData.value.email || !isValidEmail(registerData.value.email)) {
-    registerErrors.value.email = 'Voer een geldig e-mailadres in.';
-  }
-  if (!registerData.value.address || registerData.value.address.trim() === '') {
-    registerErrors.value.address = 'Adres is verplicht.';
-  }
-  if (!registerData.value.password || !isStrongPassword(registerData.value.password)) {
-    registerErrors.value.password = 'Wachtwoord moet minimaal 8 tekens bevatten, met hoofdletters, kleine letters, cijfers en speciale tekens.';
-  }
-  if (registerData.value.password !== registerData.value.confirmPassword) {
-    registerErrors.value.confirmPassword = 'Wachtwoorden komen niet overeen.';
-  }
+  try {
+    // Validation
+    if (!registerData.value.name?.trim()) {
+      registerErrors.value.name = 'Naam is verplicht.';
+    }
+    if (!registerData.value.email || !isValidEmail(registerData.value.email)) {
+      registerErrors.value.email = 'Voer een geldig e-mailadres in.';
+    }
+    if (!registerData.value.password || !isStrongPassword(registerData.value.password)) {
+      registerErrors.value.password = 'Wachtwoord moet minimaal 8 tekens bevatten, met hoofdletters, kleine letters, cijfers en speciale tekens.';
+    }
+    if (registerData.value.password !== registerData.value.confirmPassword) {
+      registerErrors.value.confirmPassword = 'Wachtwoorden komen niet overeen.';
+    }
 
-  // If errors, don't proceed
-  if (Object.keys(registerErrors.value).length > 0) {
-    return;
-  }
+    // If errors, don't proceed
+    if (Object.keys(registerErrors.value).length > 0) {
+      return;
+    }
 
-  // Add register logic here (e.g., API call)
-  console.log('Register data:', registerData.value);
-  // Reset form data after successful registration
-  registerData.value = {
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    address: ''
-  };
-  closeModals();
+    console.log('Sending registration data...'); // Debug log
+
+    const response = await fetch('/back-end/register_klant.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        naam: registerData.value.name.trim(),
+        email: registerData.value.email.trim(),
+        wachtwoord: registerData.value.password,
+        adres: registerData.value.address?.trim() || ''
+      })
+    });
+
+    const data = await response.json();
+    console.log('Server response:', data); // Debug log
+
+    if (!response.ok || data.error) {
+      throw new Error(data.error || 'Registration failed');
+    }
+
+    // Clear form and close modal on success
+    registerData.value = {
+      name: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+      address: ''
+    };
+    closeModals();
+    alert('Registratie succesvol! U kunt nu inloggen.');
+
+  } catch (err) {
+    console.error('Registration error:', err); // Debug log
+    registerErrors.value.submit = err.message;
+  }
 };
 </script>
 
 <template>
-  <div class="modal-component">
+  <div :class="['modal-component', {'dark-theme': isDarkTheme}]">
     <header class="top-bar">
       <div class="logo-container">
         <a href="/" class="logo-link">
@@ -150,11 +265,19 @@ const handleRegister = () => {
       </nav>
 
       <div class="actions">
-        <button class="action-btn theme-switch-icon" title="Schakel thema">🌙</button>
-        <button class="action-btn search-icon">🔍</button>
+        <button @click="toggleTheme" class="action-btn theme-switch-icon" :title="isDarkTheme ? 'Schakel naar licht thema' : 'Schakel naar donker thema'">
+          {{ isDarkTheme ? '☀️' : '🌙' }}
+        </button>
+        
         <button class="action-btn cart-icon">🛒</button>
-        <button @click="openLoginModal" class="auth-btn login-btn">Inloggen</button>
-        <button @click="openRegisterModal" class="auth-btn register-btn">Registreren</button>
+        <template v-if="!isLoggedIn">
+          <button @click="openLoginModal" class="auth-btn login-btn">Inloggen</button>
+          <button @click="openRegisterModal" class="auth-btn register-btn">Registreren</button>
+        </template>
+        <template v-else>
+          <span class="welcome-text">Welkom, {{ currentUser?.naam }}</span>
+          <button @click="handleLogout" class="auth-btn logout-btn">Uitloggen</button>
+        </template>
       </div>
     </header>
 
@@ -212,7 +335,7 @@ const handleRegister = () => {
       <Producten v-if="showProducts" :category="selectedCategory" />
       <button v-if="showProducts" @click="goHome" class="back-btn">Terug naar Home</button>
 
-      <button class="chat-icon-fixed">💬</button>
+     <!--<OllamaChat/>--> 
     </main>
 
     <footer class="main-footer">
@@ -289,6 +412,6 @@ const handleRegister = () => {
   </div>
 </template>
 
-<style scoped>
-@import './assets/style.css';
+<style>
+@import './src/assets/style.css';
 </style>
