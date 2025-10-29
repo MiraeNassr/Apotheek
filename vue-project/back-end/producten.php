@@ -50,7 +50,7 @@ $display_name = getCategoryDisplayName($category);
                 <?php foreach ($products as $product): ?>
                 <div class="product-item">
                     <div class="product-image-box">
-                        <img src="<?php echo htmlspecialchars(str_replace('src/', '', $product['afbeelding_url'])); ?>"
+                        <img src="<?php echo htmlspecialchars(str_replace('../src/assets/images/', '', $product['afbeelding_url'])); ?>"
                             alt="<?php echo htmlspecialchars($product['naam']); ?>" class="product-img">
                     </div>
                     <div class="product-details">
