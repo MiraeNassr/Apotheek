@@ -20,7 +20,9 @@ export default defineConfig({
     proxy: {
       '/back-end': {
         target: 'http://localhost',
-        changeOrigin: true
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/back-end/, '/lessen/Apotheek/vue-project/back-end')
       }
     }
   },
