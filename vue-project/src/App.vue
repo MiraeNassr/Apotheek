@@ -1,9 +1,14 @@
 <script setup>
 import { ref } from 'vue';
+import Producten from '../producten.vue';
 
 // Reactive state for modal visibility
 const showLoginModal = ref(false);
 const showRegisterModal = ref(false);
+
+// Reactive state for products view
+const selectedCategory = ref('');
+const showProducts = ref(false);
 
 // Form data
 const loginData = ref({
@@ -33,6 +38,12 @@ const isStrongPassword = (password) => {
   return password.length >= minLength && hasUpperCase && hasLowerCase && hasNumbers && hasSpecialChar;
 };
 
+// Helper function for email validation
+const isValidEmail = (email) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
 // Methods to handle modal actions
 const openLoginModal = () => {
   showLoginModal.value = true;
@@ -49,13 +60,23 @@ const closeModals = () => {
   showRegisterModal.value = false;
 };
 
+// Methods to handle category selection
+const selectCategory = (category) => {
+  selectedCategory.value = category;
+  showProducts.value = true;
+};
+
+const goHome = () => {
+  showProducts.value = false;
+  selectedCategory.value = '';
+};
+
 const handleLogin = () => {
   // Reset errors
   loginErrors.value = {};
 
   // Validation
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!loginData.value.email || !emailRegex.test(loginData.value.email)) {
+  if (!loginData.value.email || !isValidEmail(loginData.value.email)) {
     loginErrors.value.email = 'Voer een geldig e-mailadres in.';
   }
   if (!loginData.value.password || !isStrongPassword(loginData.value.password)) {
@@ -77,11 +98,10 @@ const handleRegister = () => {
   registerErrors.value = {};
 
   // Validation
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!registerData.value.name || registerData.value.name.trim() === '') {
     registerErrors.value.name = 'Naam is verplicht.';
   }
-  if (!registerData.value.email || !emailRegex.test(registerData.value.email)) {
+  if (!registerData.value.email || !isValidEmail(registerData.value.email)) {
     registerErrors.value.email = 'Voer een geldig e-mailadres in.';
   }
   if (!registerData.value.address || registerData.value.address.trim() === '') {
@@ -123,7 +143,7 @@ const handleRegister = () => {
       </div>
 
       <nav class="nav-links">
-        <a href="/" class="nav-link">Home</a>
+        <a href="/" @click="goHome" class="nav-link">Home</a>
         <a href="/over-ons" class="nav-link">Over Ons</a>
         <a href="/diensten" class="nav-link">Diensten</a>
         <a href="/contact" class="nav-link">Contact</a>
@@ -151,43 +171,46 @@ const handleRegister = () => {
         <p>Welkom bij Apotheek De Pillen All-stars , uw complete platform voor het bestellen van medicijnen en gezondheidsproducten. U kunt medicijnen zoeken of de onderstaande categorieën bekijken.</p>
       </section>
 
-      <section class="category-grid">
-        <a href="../back-end/producten.php?category=Antihistamine" class="category-link">
+      <section v-if="!showProducts" class="category-grid">
+        <div @click="selectCategory('Antihistamine')" class="category-link">
           <div class="category-item">
             <div class="category-icon-box">
               <img src="./assets/images/home1.jpg" alt="Antihistamine" class="category-img">
             </div>
             <p>Antihistamine</p>
           </div>
-        </a>
+        </div>
 
-        <a href="../back-end/producten.php?category=Vitaminen & Supplements" class="category-link">
+        <div @click="selectCategory('Vitaminen & Supplements')" class="category-link">
           <div class="category-item">
             <div class="category-icon-box">
               <img src="./assets/images/home3.jpg" alt="Vitaminen" class="category-img">
             </div>
             <p>Vitaminen & Supplements </p>
           </div>
-        </a>
+        </div>
 
-        <a href="../back-end/producten.php?category=Antibiotics" class="category-link">
+        <div @click="selectCategory('Antibiotics')" class="category-link">
           <div class="category-item">
             <div class="category-icon-box">
               <img src="./assets/images/home2.jpg" alt="Antibioticum" class="category-img">
             </div>
             <p>Antibiotics</p>
           </div>
-        </a>
+        </div>
 
-        <a href="../back-end/producten.php?category=Pain relief" class="category-link">
+        <div @click="selectCategory('Pain relief')" class="category-link">
           <div class="category-item">
             <div class="category-icon-box">
               <img src="./assets/images/home4.jpg" alt="Pijnstillers" class="category-img">
             </div>
             <p>Pain relief</p>
           </div>
-        </a>
+        </div>
       </section>
+
+      <Producten v-if="showProducts" :category="selectedCategory" />
+      <button v-if="showProducts" @click="goHome" class="back-btn">Terug naar Home</button>
 
       <button class="chat-icon-fixed">💬</button>
     </main>

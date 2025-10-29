@@ -1,8 +1,10 @@
-<?php 
+<?php
 
-include 'get_products.php'; 
+// Include database configuration and get_products logic
+require_once 'db_config.php';
+require_once 'get_products.php';
 
-// Function to get a display name for the category 
+// Function to get a display name for the category
 function getCategoryDisplayName($category) {
     $map = [
         'Antihistamine' => 'Antihistamine Producten',
@@ -10,8 +12,9 @@ function getCategoryDisplayName($category) {
         'Antibiotics' => 'Antibiotica Producten',
         'Pain relief' => 'Pijnverlichting Producten',
     ];
-    return $map[$category] ?? 'Alle Producten'; 
+    return $map[$category] ?? 'Alle Producten';
 }
+
 $display_name = getCategoryDisplayName($category);
 ?>
 
@@ -22,7 +25,7 @@ $display_name = getCategoryDisplayName($category);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Producten Overzicht</title>
-    <link rel="stylesheet" href="../src/assets/style.css">
+    <link rel="stylesheet" href="assets/style.css">
 </head>
 
 <body>
@@ -47,7 +50,7 @@ $display_name = getCategoryDisplayName($category);
                 <?php foreach ($products as $product): ?>
                 <div class="product-item">
                     <div class="product-image-box">
-                        <img src="<?php echo htmlspecialchars($product['afbeelding_url']); ?>"
+                        <img src="<?php echo htmlspecialchars(str_replace('src/', '', $product['afbeelding_url'])); ?>"
                             alt="<?php echo htmlspecialchars($product['naam']); ?>" class="product-img">
                     </div>
                     <div class="product-details">

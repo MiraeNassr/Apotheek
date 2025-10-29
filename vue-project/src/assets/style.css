@@ -283,7 +283,8 @@ body {
     overflow: hidden;
 }
 
-.add-to-cart-btn {
+.add-to-cart-btn,
+.back-btn {
     /*  gebruikt in het ProductItem Vue-component */
     background-color: var(--secondary-green);
     color: var(--light-bg);
@@ -293,6 +294,10 @@ body {
     cursor: pointer;
     font-weight: bold;
     transition: background-color 0.3s;
+}
+
+.back-btn:hover {
+    background-color: #388e3c;
 }
 
 /* ---Data/Statistieken Pagina Secties ------- */
